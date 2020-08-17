@@ -31,6 +31,25 @@ class Elementor {
 
 		// Add Plugin actions
 		add_action('elementor/widgets/widgets_registered', [$this, 'register_widgets']);
+
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+	}
+
+	public function enqueue_assets() {
+		wp_register_style(
+			'funnel-product-picker',
+			plugins_url( 'assets/css/style.css', __FILE__ ),
+			[],
+			'1.0.0'
+		);
+
+		wp_register_script(
+			'funnel-product-picker',
+			plugins_url( 'assets/js/script.js', __FILE__ ),
+			['jquery'],
+			'1.0.0',
+			true
+		);
 	}
 
 	public function admin_notice_missing_main_plugin()

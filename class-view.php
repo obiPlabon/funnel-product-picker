@@ -12,17 +12,42 @@ class View {
 
 	protected $product_id;
 
+	public static $attribute_key;
+
+	public static $selected_value;
+
 	public function __construct( $product_id ) {
 		$this->product_id = $product_id;
+
+		self::$attribute_key = 'attribute_package';
+		self::$selected_value = 'Buy 1';
 	}
 
 	protected function maybe_update_hooks() {
 		// Change form action to avoid redirect.
 		add_filter( 'woocommerce_add_to_cart_form_action', '__return_empty_string' );
+
+		add_filter( 'wc_get_template', [ $this, 'load_local_variable_template' ], 10, 2 );
+	}
+
+	public function load_local_variable_template( $template, $template_name ) {
+		if ( $template_name !== 'single-product/add-to-cart/variable.php' ) {
+			return $template;
+		}
+
+		$_template = __DIR__ . '/templates/variable.php';
+
+		if ( is_readable( $_template ) ) {
+			$template = $_template;
+		}
+
+		return $template;
 	}
 
 	protected function maybe_restore_hooks() {
 		remove_filter( 'woocommerce_add_to_cart_form_action', '__return_empty_string' );
+
+		remove_filter( 'wc_get_template', [ $this, 'load_local_variable_template' ], 10, 2 );
 	}
 
 	public function render() {
@@ -75,7 +100,7 @@ class View {
 
 	protected function render_product() {
 		?>
-		<div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'funnel-product', $product ); ?>>
+		<div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'funnel-picker', $product ); ?>>
 			<?php woocommerce_variable_add_to_cart(); ?>
 		</div>
 		<?php

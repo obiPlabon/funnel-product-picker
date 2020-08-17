@@ -1,0 +1,76 @@
+.funnel-picker .variations {
+    display: none;
+}
+
+.funnel-picker__options-title {
+    margin: 0 0 25px;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1;
+    color: #161616;
+}
+
+.funnel-picker__options {
+    display: flex;
+    list-style: none;
+}
+
+.funnel-picker__options-item {
+    flex: 0 0 210px;
+    max-width: 210px;
+    text-align: center;
+}
+
+.funnel-picker__options-item:not(:last-child) {
+    margin-right: 20px;
+}
+
+.funnel-picker__options-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.funnel-picker__options-label,
+.funnel-picker__options-img img {
+    display: block;
+    cursor: pointer;
+}
+
+.funnel-picker__options-img {
+    display: block;
+    border: 2px solid #fff;
+    overflow: hidden;
+    border-radius: 8px;
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.funnel-picker__options-img:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #e8e4ff;
+    opacity: .5;
+}
+
+.funnel-picker__options-input:checked+.funnel-picker__options-label>.funnel-picker__options-img {
+    border-color: #89c04e;
+    opacity: 1;
+}
+
+.funnel-picker__options-input:checked+.funnel-picker__options-label>.funnel-picker__options-img:before {
+    opacity: 0;
+}
+
+.funnel-picker__options-title {
+    margin: 0 0 10px;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1;
+    color: #161616;
+}

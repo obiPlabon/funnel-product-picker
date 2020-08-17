@@ -58,6 +58,8 @@ class Widget_Product_Picker extends Widget_Base {
 	 */
 	protected function render() {
 		$settings = $this->get_settings_for_display();
+		$this->add_style_depends( 'funnel-product-picker' );
+		$this->add_script_depends( 'funnel-product-picker' );
 		// echo do_shortcode( '[product_page id="2784"]');
 		$view = new View( 2784 );
 		$view->render();
