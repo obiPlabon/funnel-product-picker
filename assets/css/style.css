@@ -102,11 +102,22 @@
     text-align: center
 }
 
-/* .funnel-picker .woocommerce-variation-price .price {
-    display: none;
-} */
+.funnel-picker .wcsatt-options-prompt-label {
+    padding-left: 30px;
+    position: relative;
+}
 
-/*
+.funnel-picker .wcsatt-options-prompt-action-input {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+
+.funnel-picker .woocommerce-variation-price .price {
+    display: none;
+}
+
 .wcsatt-options-wrapper .funnel-onetime-price-top,
 .wcsatt-options-wrapper .funnel-subscription-price-top,
 .wcsatt-options-wrapper .funnel-onetime-price-radio,
@@ -114,7 +125,6 @@
     display: none;
 }
 
-.wcsatt-options-wrapper .wcsatt-options-prompt-action+.funnel-onetime-price-radio,
-.wcsatt-options-wrapper .wcsatt-options-prompt-action+.funnel-subscription-price-radio {
+.wcsatt-options-wrapper .wcsatt-options-prompt-action+span {
     display: block;
-} */
+}

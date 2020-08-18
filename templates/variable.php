@@ -33,6 +33,7 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 	<?php if ( empty( $available_variations ) && false !== $available_variations ) : ?>
 		<p class="stock out-of-stock v"><?php echo esc_html( apply_filters( 'woocommerce_out_of_stock_message', __( 'This product is currently out of stock and unavailable.', 'woocommerce' ) ) ); ?></p>
 	<?php else : ?>
+		<p class="funnel-picker__top-price"></p>
 		<div class="funnel-picker__options-section">
 			<h3 class="funnel-picker__options-title"><?php esc_html_e( 'Select Quantity:', '@text-domain' ); ?></h3>
 			<ul class="funnel-picker__options">
@@ -54,7 +55,7 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 					$_price = $_variation['display_price'] / $_counter;
 					?>
 					<li class="funnel-picker__options-item">
-						<input <?php checked( $_value, $selected_value ); ?> class="funnel-picker__options-input" id="<?php echo $_value_key; ?>" type="radio" name="funnel-picker__options" value="<?php echo esc_attr( $_value ); ?>">
+						<input data-vid="<?php echo $_variation['variation_id']; ?>" <?php checked( $_value, $selected_value ); ?> class="funnel-picker__options-input" id="<?php echo $_value_key; ?>" type="radio" name="funnel-picker__options" value="<?php echo esc_attr( $_value ); ?>">
 						<label class="funnel-picker__options-label" for="<?php echo $_value_key; ?>">
 							<span class="funnel-picker__options-img"><img src="<?php echo esc_url( $_image['thumb_src'] ); ?>" srcset="<?php echo esc_attr( $_image['srcset'] ); ?>" sizes="<?php echo esc_attr( $_image['sizes'] ); ?>" alt="<?php echo esc_attr( $_value ); ?>"></span>
 							<h4 class="funnel-picker__options-title"><?php echo esc_html( $_value ); ?></h4>

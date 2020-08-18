@@ -24,9 +24,68 @@ class View {
 		self::$selected_value = 'Buy 1';
 	}
 
-	public static function get_radio_options( $options = [] ) {
+	protected static $_counter = 1;
+	protected static $_counter_data = 1;
+
+	public static function add_variation_data( $variation_data, $variable_product, $variation_product ) {
+		$base_subscription = \WCS_ATT_Product_Schemes::get_base_subscription_scheme( $variation_product );
+
+		$prices = $base_subscription->get_prices( [
+			'price' => $variation_product->get_price( 'edit' )
+		] );
+
+		$variation_data['funnel_ot_bottle_price'] = wc_price( $prices['regular_price'] / self::$_counter_data ) . ' / bottle';
+		$variation_data['funnel_subs_bottle_price'] = wc_price( $prices['sale_price'] / self::$_counter_data ) . ' / bottle';
+
+		self::$_counter_data += 2;
+
+		return $variation_data;
+	}
+
+	public static function get_radio_options( $product ) {
+		$base_subscription = \WCS_ATT_Product_Schemes::get_base_subscription_scheme( $product );
+
+		$prices = $base_subscription->get_prices( [
+			'price' => $product->get_price( 'edit' )
+		] );
+
+		$onetime_price = sprintf(
+			'<span class="funnel-onetime-price-radio funnel-product-%1$s">%2$s</span>'
+			. '<span class="funnel-onetime-price-top funnel-product-%1$s">%2$s (%3$s  / bottle)</span>',
+			$product->get_id(),
+			wc_price( $prices['regular_price'] ),
+			wc_price( $prices['regular_price'] / self::$_counter )
+		);
+
+		$subscription_price = sprintf(
+			'<span class="funnel-subscription-price-radio funnel-product-%1$s">%2$s (Save %3$s)</span>'
+			. '<span class="funnel-subscription-price-top funnel-product-%1$s">%2$s (%4$s  / bottle)</span>',
+			$product->get_id(),
+			wc_price( $prices['sale_price'] ),
+			wc_price( $prices['regular_price'] - $prices['sale_price'] ),
+			wc_price( $prices['sale_price'] / self::$_counter )
+		);
+
 		ob_start();
-		include_once __DIR__ . '/templates/product-subscription-options-prompt-radio.php';
+		?>
+		<ul class="wcsatt-options-prompt-radios">
+			<li class="wcsatt-options-prompt-radio">
+				<label class="wcsatt-options-prompt-label wcsatt-options-prompt-label-one-time">
+					<input class="wcsatt-options-prompt-action-input" type="radio" name="subscribe-to-action-input" value="no" />
+					<span class="wcsatt-options-prompt-action"><?php esc_html_e( 'One-time Purchase', '@text-domain' ); ?></span>
+					<?php echo $onetime_price ?>
+				</label>
+			</li>
+			<li class="wcsatt-options-prompt-radio">
+				<label class="wcsatt-options-prompt-label wcsatt-options-prompt-label-subscription">
+					<input class="wcsatt-options-prompt-action-input" type="radio" name="subscribe-to-action-input" value="yes" />
+					<span class="wcsatt-options-prompt-action"><?php esc_html_e( 'Subscribe & Save — 10% Off', '@text-domain' ); ?></span>
+					<?php echo $subscription_price ?>
+				</label>
+			</li>
+		</ul>
+		<?php
+		self::$_counter += 2;
 		return ob_get_clean();
 	}
 
@@ -77,6 +136,8 @@ class View {
 		add_action( 'woocommerce_single_variation', [ $this, 'add_shipping_text' ], 15 );
 
 		add_filter( 'wc_get_template', [ $this, 'load_local_template' ], 10, 2 );
+
+		add_filter( 'woocommerce_available_variation', array( __CLASS__, 'add_variation_data' ), 0, 3 );
 
 		add_filter( 'wcsatt_single_product_subscription_dropdown_option_price_html_args', [ __CLASS__, 'update_dropdown_option_price_html_args' ] );
 	}
