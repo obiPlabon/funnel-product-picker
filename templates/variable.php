@@ -47,10 +47,6 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 						continue;
 					}
 
-					// echo '<pre>';
-					// print_r( $_variation );
-					// echo '</pre>';
-
 					$_image = $_variation['image'];
 					$_value = $_variation['attributes'][ $attribute_key ];
 					$_value_key = sanitize_key( 'funnel-option-' . $_value );

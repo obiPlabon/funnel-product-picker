@@ -101,3 +101,20 @@
 .funnel-picker .woocommerce-variation-add-to-cart {
     text-align: center
 }
+
+/* .funnel-picker .woocommerce-variation-price .price {
+    display: none;
+} */
+
+/*
+.wcsatt-options-wrapper .funnel-onetime-price-top,
+.wcsatt-options-wrapper .funnel-subscription-price-top,
+.wcsatt-options-wrapper .funnel-onetime-price-radio,
+.wcsatt-options-wrapper .funnel-subscription-price-radio {
+    display: none;
+}
+
+.wcsatt-options-wrapper .wcsatt-options-prompt-action+.funnel-onetime-price-radio,
+.wcsatt-options-wrapper .wcsatt-options-prompt-action+.funnel-subscription-price-radio {
+    display: block;
+} */
