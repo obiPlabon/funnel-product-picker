@@ -32,10 +32,22 @@ class Elementor {
 		// Add Plugin actions
 		add_action('elementor/widgets/widgets_registered', [$this, 'register_widgets']);
 
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'register_assets' ] );
+
+		add_action( 'elementor/preview/enqueue_styles', [ $this, 'enqueue_assets' ] );
 	}
 
 	public function enqueue_assets() {
+		wp_enqueue_style(
+			'funnel-product-picker',
+			plugins_url( 'assets/css/style.css', __FILE__ ),
+			[],
+			'1.0.0'
+		);
+	}
+
+
+	public function register_assets() {
 		wp_register_style(
 			'funnel-product-picker',
 			plugins_url( 'assets/css/style.css', __FILE__ ),

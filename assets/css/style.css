@@ -2,6 +2,13 @@
     display: none;
 }
 
+.funnel-picker__options-section {
+    padding: 30px 0;
+    border-top: 1px solid #dfdfdf;
+    border-bottom: 1px solid #dfdfdf;
+    margin-bottom: 30px;
+}
+
 .funnel-picker__options-title {
     margin: 0 0 25px;
     font-size: 16px;
@@ -13,16 +20,17 @@
 .funnel-picker__options {
     display: flex;
     list-style: none;
+    margin-bottom: 25px;
 }
 
 .funnel-picker__options-item {
-    flex: 0 0 210px;
+    flex: 0 1 210px;
     max-width: 210px;
     text-align: center;
 }
 
 .funnel-picker__options-item:not(:last-child) {
-    margin-right: 20px;
+    margin-right: 3%;
 }
 
 .funnel-picker__options-input {
@@ -73,4 +81,23 @@
     font-weight: bold;
     line-height: 1;
     color: #161616;
+}
+
+.funnel-picker__options-tagline {
+    font-size: 14px;
+    color: #717171;
+    margin-bottom: 0;
+}
+
+.funnel-picker__shipping-text {
+    border-bottom: 1px solid #dfdfdf;
+    margin-bottom: 55px;
+    padding-bottom: 55px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #161616;
+}
+
+.funnel-picker .woocommerce-variation-add-to-cart {
+    text-align: center
 }

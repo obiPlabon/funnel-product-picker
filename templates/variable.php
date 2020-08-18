@@ -70,6 +70,7 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 				endforeach;
 				?>
 			</ul>
+			<p class="funnel-picker__options-tagline"><?php esc_html_e( '*Depending on size of dog', '@text-domain' ); ?></p>
 		</div>
 		<table class="variations" cellspacing="0">
 			<tbody>
