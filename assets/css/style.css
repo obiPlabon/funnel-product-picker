@@ -2,6 +2,21 @@
     display: none;
 }
 
+.funnel-picker__top-price {
+    margin-bottom: 30px;
+    font-size: 16px;
+    line-height: 1;
+    color: #161616;
+}
+
+.funnel-picker__top-price-label {
+    font-weight: bold;
+}
+
+.funnel-picker__top-price-base {
+    font-size: 1.8em;
+}
+
 .funnel-picker__options-section {
     padding: 30px 0;
     border-top: 1px solid #dfdfdf;

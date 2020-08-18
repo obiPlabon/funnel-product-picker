@@ -26,6 +26,8 @@ $attribute_keys  = array_keys( $attributes );
 $variations_json = wp_json_encode( $available_variations );
 $variations_attr = function_exists( 'wc_esc_json' ) ? wc_esc_json( $variations_json ) : _wp_specialchars( $variations_json, ENT_QUOTES, 'UTF-8', true );
 
+$first_variation = current( $available_variations );
+
 do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 
 <form class="variations_form cart" action="<?php echo esc_url( apply_filters( 'woocommerce_add_to_cart_form_action', $product->get_permalink() ) ); ?>" method="post" enctype='multipart/form-data' data-product_id="<?php echo absint( $product->get_id() ); ?>" data-product_variations="<?php echo $variations_attr; // WPCS: XSS ok. ?>">
@@ -33,7 +35,11 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 	<?php if ( empty( $available_variations ) && false !== $available_variations ) : ?>
 		<p class="stock out-of-stock v"><?php echo esc_html( apply_filters( 'woocommerce_out_of_stock_message', __( 'This product is currently out of stock and unavailable.', 'woocommerce' ) ) ); ?></p>
 	<?php else : ?>
-		<p class="funnel-picker__top-price"></p>
+		<p class="funnel-picker__top-price">
+			<span class="funnel-picker__top-price-label">Price:</span>
+			<span class="funnel-picker__top-price-base"><?php echo wc_price( $first_variation['display_price'] ); ?></span>
+			<span class="funnel-picker__top-price-bottle">(<?php echo wc_price( $first_variation['display_price'] ); ?> / bottle)</span>
+		</p>
 		<div class="funnel-picker__options-section">
 			<h3 class="funnel-picker__options-title"><?php esc_html_e( 'Select Quantity:', '@text-domain' ); ?></h3>
 			<ul class="funnel-picker__options">
