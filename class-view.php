@@ -19,9 +19,6 @@ class View {
 	public function __construct( $product_id, $args = [] ) {
 		$this->product_id = $product_id;
 		$this->args = $args;
-
-		self::$attribute_key = 'attribute_package';
-		self::$selected_value = 'Buy 1';
 	}
 
 	protected static $_counter = 1;
@@ -99,16 +96,16 @@ class View {
 
 	public function add_shipping_text() {
 		?>
-		<div class="funnel-picker__shipping-text">We ship anywhere in the USA for free!</div>
+		<div class="funnel-picker__shipping-text"><?php echo $this->args['shipping_content']; ?></div>
 		<?php
 	}
 
 	public function update_add_to_cart_text() {
-		return __( 'Buy Now', '@text-domain' );
+		return $this->args['onetime_button_text'];
 	}
 
 	public function update_subscription_add_to_cart_text() {
-		return __( 'Subscribe Now', '@text-domain' );
+		return $this->args['subscription_button_text'];
 	}
 
 	public function load_local_template( $template, $template_name ) {
@@ -228,7 +225,9 @@ class View {
 				'available_variations' => $get_variations ? $product->get_available_variations() : false,
 				'attributes'           => $product->get_variation_attributes(),
 				'selected_attributes'  => $product->get_default_attributes(),
-				// 'elementor_widget'	   => $this->args['widget_instance'],
+				'package_key' => $this->args['package_key'],
+				'selected_package' => $this->args['selected_package'],
+				'condition_text' => $this->args['condition_text'],
 			)
 		);
 	}

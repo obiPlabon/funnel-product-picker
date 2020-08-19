@@ -19,8 +19,8 @@ defined( 'ABSPATH' ) || exit;
 
 global $product;
 
-$attribute_key = \Funnel_Product_Picker\View::$attribute_key;
-$selected_value = \Funnel_Product_Picker\View::$selected_value;
+$attribute_key = $package_key;
+$selected_value = $selected_package;
 
 $attribute_keys  = array_keys( $attributes );
 $variations_json = wp_json_encode( $available_variations );
@@ -73,7 +73,7 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 				endforeach;
 				?>
 			</ul>
-			<p class="funnel-picker__options-tagline"><?php esc_html_e( '*Depending on size of dog', '@text-domain' ); ?></p>
+			<p class="funnel-picker__options-tagline"><?php echo $condition_text; ?></p>
 		</div>
 		<table class="variations" cellspacing="0">
 			<tbody>
