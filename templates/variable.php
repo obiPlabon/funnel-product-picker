@@ -75,7 +75,7 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 			</ul>
 			<p class="funnel-picker__options-tagline"><?php echo $condition_text; ?></p>
 		</div>
-		<table class="variations" cellspacing="0">
+		<table style="display:none" class="variations" cellspacing="0">
 			<tbody>
 				<?php foreach ( $attributes as $attribute_name => $options ) : ?>
 					<tr>

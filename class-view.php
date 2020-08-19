@@ -12,114 +12,13 @@ class View {
 
 	protected $product_id;
 
-	public static $attribute_key;
+	protected static $_counter = 1;
 
-	public static $selected_value;
+	protected static $_counter_data = 1;
 
 	public function __construct( $product_id, $args = [] ) {
 		$this->product_id = $product_id;
 		$this->args = $args;
-	}
-
-	protected static $_counter = 1;
-	protected static $_counter_data = 1;
-
-	public static function add_variation_data( $variation_data, $variable_product, $variation_product ) {
-		$base_subscription = \WCS_ATT_Product_Schemes::get_base_subscription_scheme( $variation_product );
-
-		$prices = $base_subscription->get_prices( [
-			'price' => $variation_product->get_price( 'edit' )
-		] );
-
-		$variation_data['funnel_ot_bottle_price'] = wc_price( $prices['regular_price'] / self::$_counter_data ) . ' / bottle';
-		$variation_data['funnel_subs_bottle_price'] = wc_price( $prices['sale_price'] / self::$_counter_data ) . ' / bottle';
-
-		self::$_counter_data += 2;
-
-		return $variation_data;
-	}
-
-	public static function get_radio_options( $product ) {
-		$base_subscription = \WCS_ATT_Product_Schemes::get_base_subscription_scheme( $product );
-
-		$prices = $base_subscription->get_prices( [
-			'price' => $product->get_price( 'edit' )
-		] );
-
-		$onetime_price = sprintf(
-			'<span class="funnel-onetime-price-radio funnel-product-%1$s">%2$s</span>'
-			. '<span class="funnel-onetime-price-top funnel-product-%1$s">%2$s (%3$s  / bottle)</span>',
-			$product->get_id(),
-			wc_price( $prices['regular_price'] ),
-			wc_price( $prices['regular_price'] / self::$_counter )
-		);
-
-		$subscription_price = sprintf(
-			'<span class="funnel-subscription-price-radio funnel-product-%1$s">%2$s (Save %3$s)</span>'
-			. '<span class="funnel-subscription-price-top funnel-product-%1$s">%2$s (%4$s  / bottle)</span>',
-			$product->get_id(),
-			wc_price( $prices['sale_price'] ),
-			wc_price( $prices['regular_price'] - $prices['sale_price'] ),
-			wc_price( $prices['sale_price'] / self::$_counter )
-		);
-
-		ob_start();
-		?>
-		<ul class="wcsatt-options-prompt-radios">
-			<li class="wcsatt-options-prompt-radio">
-				<label class="wcsatt-options-prompt-label wcsatt-options-prompt-label-one-time">
-					<input class="wcsatt-options-prompt-action-input" type="radio" name="subscribe-to-action-input" value="no" />
-					<span class="wcsatt-options-prompt-action"><?php esc_html_e( 'One-time Purchase', '@text-domain' ); ?></span>
-					<?php echo $onetime_price ?>
-				</label>
-			</li>
-			<li class="wcsatt-options-prompt-radio">
-				<label class="wcsatt-options-prompt-label wcsatt-options-prompt-label-subscription">
-					<input class="wcsatt-options-prompt-action-input" type="radio" name="subscribe-to-action-input" value="yes" />
-					<span class="wcsatt-options-prompt-action"><?php esc_html_e( 'Subscribe & Save — 10% Off', '@text-domain' ); ?></span>
-					<?php echo $subscription_price ?>
-				</label>
-			</li>
-		</ul>
-		<?php
-		self::$_counter += 2;
-		return ob_get_clean();
-	}
-
-	public static function update_dropdown_option_price_html_args( $args ) {
-		$args['hide_price'] = true;
-		$args['append_price'] = false;
-		$args['allow_discount'] = false;
-
-		return $args;
-	}
-
-	public function add_shipping_text() {
-		?>
-		<div class="funnel-picker__shipping-text"><?php echo $this->args['shipping_content']; ?></div>
-		<?php
-	}
-
-	public function update_add_to_cart_text() {
-		return $this->args['onetime_button_text'];
-	}
-
-	public function update_subscription_add_to_cart_text() {
-		return $this->args['subscription_button_text'];
-	}
-
-	public function load_local_template( $template, $template_name ) {
-		$templates = [
-			'single-product/add-to-cart/variable.php' => 'variable.php',
-			'single-product/add-to-cart/variation-add-to-cart-button.php' => 'variation-add-to-cart-button.php',
-			'single-product/product-subscription-options.php' => 'product-subscription-options.php',
-		];
-
-		if ( isset( $templates[ $template_name ] ) && is_readable( __DIR__ . '/templates/' . $templates[ $template_name ] ) ) {
-			return __DIR__ . '/templates/' . $templates[ $template_name ];
-		}
-
-		return $template;
 	}
 
 	protected function maybe_update_hooks() {
@@ -153,6 +52,107 @@ class View {
 		remove_filter( 'wcsatt_single_product_subscription_dropdown_option_price_html_args', [ __CLASS__, 'update_dropdown_option_price_html_args' ] );
 	}
 
+	public static function add_variation_data( $variation_data, $variable_product, $variation_product ) {
+		$base_subscription = \WCS_ATT_Product_Schemes::get_base_subscription_scheme( $variation_product );
+
+		$prices = $base_subscription->get_prices( [
+			'price' => $variation_product->get_price( 'edit' )
+		] );
+
+		$variation_data['funnel_ot_bottle_price'] = wc_price( $prices['regular_price'] / self::$_counter_data ) . ' / bottle';
+		$variation_data['funnel_subs_bottle_price'] = wc_price( $prices['sale_price'] / self::$_counter_data ) . ' / bottle';
+
+		self::$_counter_data += 2;
+
+		return $variation_data;
+	}
+
+	public static function get_radio_options( $product ) {
+		$base_subscription = \WCS_ATT_Product_Schemes::get_base_subscription_scheme( $product );
+
+		$prices = $base_subscription->get_prices( [
+			'price' => $product->get_price( 'edit' )
+		] );
+
+		$onetime_price = sprintf(
+			'<span class="funnel-onetime-price-radio funnel-product-%1$s">%2$s</span>',
+			$product->get_id(),
+			wc_price( $prices['regular_price'] )
+		);
+
+		$subscription_price = sprintf(
+			'<span class="funnel-subscription-price-radio funnel-product-%1$s">%2$s (Save %3$s)</span>',
+			$product->get_id(),
+			wc_price( $prices['sale_price'] ),
+			wc_price( $prices['regular_price'] - $prices['sale_price'] )
+		);
+
+		ob_start();
+
+		?>
+		<ul class="wcsatt-options-prompt-radios">
+			<li class="wcsatt-options-prompt-radio">
+				<label class="wcsatt-options-prompt-label wcsatt-options-prompt-label-one-time">
+					<input class="wcsatt-options-prompt-action-input" type="radio" name="subscribe-to-action-input" value="no" />
+					<span class="wcsatt-options-prompt-action"><?php esc_html_e( 'One-time Purchase', '@text-domain' ); ?></span>
+					<?php echo $onetime_price ?>
+				</label>
+			</li>
+			<li class="wcsatt-options-prompt-radio">
+				<label class="wcsatt-options-prompt-label wcsatt-options-prompt-label-subscription">
+					<input class="wcsatt-options-prompt-action-input" type="radio" name="subscribe-to-action-input" value="yes" />
+					<span class="wcsatt-options-prompt-action"><?php esc_html_e( 'Subscribe & Save — 10% Off', '@text-domain' ); ?></span>
+					<?php echo $subscription_price ?>
+				</label>
+			</li>
+		</ul>
+		<?php
+
+		self::$_counter += 2;
+		return ob_get_clean();
+	}
+
+	public static function update_dropdown_option_price_html_args( $args ) {
+		$args['hide_price']     = true;
+		$args['append_price']   = false;
+		$args['allow_discount'] = false;
+
+		return $args;
+	}
+
+	public function add_shipping_text() {
+		?>
+		<div class="funnel-picker__shipping-text"><?php echo $this->args['shipping_content']; ?></div>
+		<?php
+	}
+
+	public function update_add_to_cart_text() {
+		return $this->args['onetime_button_text'];
+	}
+
+	public function update_subscription_add_to_cart_text() {
+		return $this->args['subscription_button_text'];
+	}
+
+	public function load_local_template( $template, $template_name ) {
+		$templates = [
+			'single-product/add-to-cart/variable.php'                     => 'variable.php',
+			'single-product/add-to-cart/variation-add-to-cart-button.php' => 'variation-add-to-cart-button.php',
+			'single-product/product-subscription-options.php'             => 'product-subscription-options.php',
+		];
+
+		if ( ! isset( $templates[ $template_name ] ) ) {
+			return $template;
+		}
+
+		$local_template = __DIR__ . '/templates/' . $templates[ $template_name ];
+		if ( ! file_exists( $local_template ) ) {
+			return $template;
+		}
+
+		return $local_template ;
+	}
+
 	public function render() {
 		if ( empty( $this->product_id ) ) {
 			return;
@@ -164,15 +164,19 @@ class View {
 			'post_status'         => 'publish',
 			'ignore_sticky_posts' => 1,
 			'no_found_rows'       => 1,
+			'p'                   => absint( $this->product_id ),
 		);
-
-		if ( $this->product_id ) {
-			$args['p'] = absint( $this->product_id );
-		}
 
 		$this->maybe_update_hooks();
 
 		$single_product = new \WP_Query( $args );
+
+		$first_product = wc_get_product( $single_product->post );
+
+		if ( ! $first_product->is_type( 'variable' ) ) {
+			echo '<div style="text-align: center">Only variable product is allowed</div>';
+			return;
+		}
 
 		// For "is_single" to always make load comments_template() for reviews.
 		$single_product->is_single = true;
@@ -189,7 +193,7 @@ class View {
 
 		while ( $single_product->have_posts() ) {
 			$single_product->the_post();
-			$this->render_product();
+			$this->render_single_product();
 		}
 
 		// Restore $previous_wp_query and reset post data.
@@ -201,34 +205,33 @@ class View {
 		$this->maybe_restore_hooks();
 	}
 
-	protected function render_product() {
-		?>
-		<div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'funnel-picker', $product ); ?>>
-			<?php $this->get_product_template(); ?>
-		</div>
-		<?php
-	}
-
-	protected function get_product_template() {
+	protected function render_single_product() {
 		global $product;
 
-		// Enqueue variation scripts.
-		wp_enqueue_script( 'wc-add-to-cart-variation' );
+		$attribute_key = sanitize_key( $this->args['package_key'] );
+		?>
+		<div data-attribute_key="<?php echo esc_attr( $attribute_key  ); ?>" id="product-<?php the_ID(); ?>" <?php wc_product_class( 'funnel-picker', $product ); ?>>
+			<?php
+			// Enqueue variation scripts.
+			wp_enqueue_script( 'wc-add-to-cart-variation' );
 
-		// Get Available variations?
-		$get_variations = count( $product->get_children() ) <= apply_filters( 'woocommerce_ajax_variation_threshold', 30, $product );
+			// Get Available variations?
+			$get_variations = count( $product->get_children() ) <= apply_filters( 'woocommerce_ajax_variation_threshold', 30, $product );
 
-		// Load the template.
-		wc_get_template(
-			'single-product/add-to-cart/variable.php',
-			array(
-				'available_variations' => $get_variations ? $product->get_available_variations() : false,
-				'attributes'           => $product->get_variation_attributes(),
-				'selected_attributes'  => $product->get_default_attributes(),
-				'package_key' => $this->args['package_key'],
-				'selected_package' => $this->args['selected_package'],
-				'condition_text' => $this->args['condition_text'],
-			)
-		);
+			// Load the template.
+			wc_get_template(
+				'single-product/add-to-cart/variable.php',
+				array(
+					'available_variations' => $get_variations ? $product->get_available_variations() : false,
+					'attributes'           => $product->get_variation_attributes(),
+					'selected_attributes'  => $product->get_default_attributes(),
+					'package_key'          => 'attribute_' . $attribute_key,
+					'selected_package'     => $this->args['selected_package'],
+					'condition_text'       => $this->args['condition_text'],
+				)
+			);
+			?>
+		</div>
+		<?php
 	}
 }

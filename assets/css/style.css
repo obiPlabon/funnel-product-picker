@@ -33,12 +33,16 @@
 }
 
 .funnel-picker__options {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     list-style: none;
     margin-bottom: 25px;
 }
 
 .funnel-picker__options-item {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 1 210px;
     flex: 0 1 210px;
     max-width: 210px;
     text-align: center;
@@ -51,6 +55,7 @@
 .funnel-picker__options-input {
     position: absolute;
     opacity: 0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     width: 0;
     height: 0;
 }
@@ -79,15 +84,18 @@
     bottom: 0;
     background-color: #e8e4ff;
     opacity: .5;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 }
 
 .funnel-picker__options-input:checked+.funnel-picker__options-label>.funnel-picker__options-img {
     border-color: #89c04e;
     opacity: 1;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
 
 .funnel-picker__options-input:checked+.funnel-picker__options-label>.funnel-picker__options-img:before {
     opacity: 0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 }
 
 .funnel-picker__options-title {
@@ -111,6 +119,30 @@
     font-size: 16px;
     font-weight: bold;
     color: #161616;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.funnel-picker__shipping-text svg {
+    height: 45px;
+    width: auto;
+    margin-right: 10px;
+}
+
+.funnel-picker .wcsatt-options-product-wrapper {
+    margin-bottom: 30px;
+}
+
+.funnel-picker .wcsatt-options-product-wrapper select {
+    margin-bottom: 0;
+}
+
+.funnel-picker .wcsatt-options-product-wrapper option {
+    padding: 5px 10px;
 }
 
 .funnel-picker .woocommerce-variation-add-to-cart {
@@ -126,13 +158,11 @@
     position: absolute;
     top: 50%;
     left: 0;
+    -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
 }
 
-.funnel-picker .woocommerce-variation-price .price {
-    display: none;
-}
-
+.funnel-picker .woocommerce-variation-price .price,
 .wcsatt-options-wrapper .funnel-onetime-price-top,
 .wcsatt-options-wrapper .funnel-subscription-price-top,
 .wcsatt-options-wrapper .funnel-onetime-price-radio,

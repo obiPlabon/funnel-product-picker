@@ -67,8 +67,8 @@ class Widget_Product_Picker extends Widget_Base {
 		$this->add_control(
 			'package_key',
 			[
-				'label' => __( 'Package Attribute Key', '@text-domain' ),
-				'description' => __( 'WooCommerce product attribute name', '@text-domain' ),
+				'label' => __( 'Attribute Name', '@text-domain' ),
+				'description' => __( 'WooCommerce product attribute name in lowercase', '@text-domain' ),
 				'type' => Controls_Manager::TEXT,
 				'default' => 'package',
 			]
@@ -164,11 +164,11 @@ class Widget_Product_Picker extends Widget_Base {
 		$shipping_content = ob_get_clean();
 
 		$view = new View( 2784, [
-			'package_key' => $settings['package_key'],
-			'selected_package' => $settings['selected_package'],
-			'condition_text' => $settings['condition_text'],
-			'shipping_content' => $shipping_content . $settings['shipping_text'],
-			'onetime_button_text' => $settings['onetime_button_text'],
+			'package_key'              => $settings['package_key'],
+			'selected_package'         => $settings['selected_package'],
+			'condition_text'           => $settings['condition_text'],
+			'shipping_content'         => $shipping_content . $settings['shipping_text'],
+			'onetime_button_text'      => $settings['onetime_button_text'],
 			'subscription_button_text' => $settings['subscription_button_text'],
 		] );
 		$view->render();

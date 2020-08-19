@@ -5,7 +5,7 @@
 	$(function () {
 		var $picker = $('.funnel-picker'),
 			$picker_options = $picker.find('.funnel-picker__options-input'),
-			$package = $picker.find('#package'),
+			$package = $picker.find('#' + $picker.data('attribute_key')),
 			$form = $picker.find('.variations_form'),
 			variation_data = $form.data('product_variations'),
 			$price_base = $picker.find('.funnel-picker__top-price-base'),
