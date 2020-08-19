@@ -155,6 +155,7 @@ class View {
 
 	public function render() {
 		if ( empty( $this->product_id ) ) {
+			echo '<div class="woocommerce-error">Product ID is missing</div>';
 			return;
 		}
 
@@ -170,14 +171,14 @@ class View {
 		$single_product = new \WP_Query( $args );
 
 		if ( empty( $single_product->post  ) ) {
-			echo '<div style="text-align: center">No product found with id <b>'.$args['p'].'</b>!</div>';
+			echo '<div class="woocommerce-info">No product found with id <b>'.$args['p'].'</b></div>';
 			return;
 		}
 
 		$first_product = wc_get_product( $single_product->post );
 
 		if ( ! $first_product->is_type( 'variable' ) ) {
-			echo '<div style="text-align: center">Only variable product is allowed</div>';
+			echo '<div class="woocommerce-info">Only variable product is allowed</div>';
 			return;
 		}
 
@@ -212,6 +213,8 @@ class View {
 
 	protected function render_single_product() {
 		global $product;
+
+		do_action( 'woocommerce_before_single_product' );
 
 		$attribute_key = sanitize_key( $this->args['package_key'] );
 		?>

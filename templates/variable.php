@@ -41,7 +41,7 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 			<span class="funnel-picker__top-price-bottle">(<?php echo wc_price( $first_variation['display_price'] ); ?> / bottle)</span>
 		</p>
 		<div class="funnel-picker__options-section">
-			<h3 class="funnel-picker__options-title"><?php esc_html_e( 'Select Quantity:', '@text-domain' ); ?></h3>
+			<h3 class="funnel-picker__options-heading"><?php esc_html_e( 'Select Quantity:', '@text-domain' ); ?></h3>
 			<ul class="funnel-picker__options">
 				<?php
 				$_counter = 1;
