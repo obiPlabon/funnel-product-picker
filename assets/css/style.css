@@ -146,7 +146,11 @@
 }
 
 .funnel-picker .woocommerce-variation-add-to-cart {
-    text-align: center
+    text-align: center;
+}
+
+.funnel-picker .woocommerce-variation-add-to-cart .single_add_to_cart_button {
+    float: none !important;
 }
 
 .funnel-picker .wcsatt-options-prompt-label {
