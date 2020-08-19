@@ -167,9 +167,12 @@ class View {
 			'p'                   => absint( $this->product_id ),
 		);
 
-		$this->maybe_update_hooks();
-
 		$single_product = new \WP_Query( $args );
+
+		if ( empty( $single_product->post  ) ) {
+			echo '<div style="text-align: center">No product found with id <b>'.$args['p'].'</b>!</div>';
+			return;
+		}
 
 		$first_product = wc_get_product( $single_product->post );
 
@@ -177,6 +180,8 @@ class View {
 			echo '<div style="text-align: center">Only variable product is allowed</div>';
 			return;
 		}
+
+		$this->maybe_update_hooks();
 
 		// For "is_single" to always make load comments_template() for reviews.
 		$single_product->is_single = true;

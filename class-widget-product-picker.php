@@ -156,6 +156,7 @@ class Widget_Product_Picker extends Widget_Base {
 	 */
 	protected function render() {
 		$settings = $this->get_settings_for_display();
+
 		$this->add_style_depends( 'funnel-product-picker' );
 		$this->add_script_depends( 'funnel-product-picker' );
 
@@ -163,7 +164,7 @@ class Widget_Product_Picker extends Widget_Base {
 		\Elementor\Icons_Manager::render_icon( $settings[ 'shipping_icon' ], [] );
 		$shipping_content = ob_get_clean();
 
-		$view = new View( 2784, [
+		$view = new View( $settings['product_id'], [
 			'package_key'              => $settings['package_key'],
 			'selected_package'         => $settings['selected_package'],
 			'condition_text'           => $settings['condition_text'],
@@ -171,6 +172,7 @@ class Widget_Product_Picker extends Widget_Base {
 			'onetime_button_text'      => $settings['onetime_button_text'],
 			'subscription_button_text' => $settings['subscription_button_text'],
 		] );
+
 		$view->render();
 	}
 }
