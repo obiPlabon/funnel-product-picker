@@ -22,7 +22,22 @@ class Funnel_Product_Picker {
 	}
 
 	public function init() {
+		$this->add_hooks();
 		include_once __DIR__ . '/class-elementor.php';
+	}
+
+	public function add_hooks() {
+		add_filter( 'option_bvbadge', '__return_false' );
+
+		add_action('wp_footer', function() {
+			?>
+			<div style="max-width:150px;min-height:70px;margin:0 auto;text-align:center;position:relative;">
+				<a href="https://malcare.com?src=8E4D8F&amp;utm_source=mcbadge&amp;utm_medium=usersite&amp;utm_campaign=badge" target="_blank">
+					<img width="100" src="<?php echo plugins_url( 'assets/img/secured-by-malcare.svg', __FILE__ ); ?>" alt="Malcare WordPress Security">
+				</a>
+			</div>
+			<?php
+		});
 	}
 }
 

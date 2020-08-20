@@ -327,7 +327,7 @@ class Widget_Product_Picker extends Widget_Base {
 		$this->add_group_control(
 			Group_Control_Typography::get_type(),
 			[
-				'name' => 'options_typography',
+				'name' => 'shipping_text_typography',
 				'selector' => '{{WRAPPER}} .funnel-picker__shipping-text',
 			]
 		);

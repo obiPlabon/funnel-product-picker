@@ -32,7 +32,8 @@
 			}
 		}
 
-		$picker_options.on('change.onPackageChage', function () {
+		$picker_options.on('change.onPackageChage', function (event) {
+			event.preventDefault();
 			$package
 				.find('option[value="' + this.value + '"]')
 				.attr('selected', true)
@@ -43,7 +44,8 @@
 			updatePriceTitle();
 		});
 
-		$picker.on('change.onPromptActionChange', '.wcsatt-options-prompt-action-input', function () {
+		$picker.on('change.onPromptActionChange', '.wcsatt-options-prompt-action-input', function (event) {
+			event.preventDefault();
 			var bottle_price_type = 'funnel_ot_bottle_price';
 			// Subscription
 			if (this.value === 'yes') {
